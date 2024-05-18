@@ -38,13 +38,16 @@ class VideoPage {
 
 
   factory VideoPage.fromMap(Map<String, dynamic>? map, String videoId) {
+    print(map.toString());
     return VideoPage(
         videoId: videoId,
         title: map?['results']['results']['contents'][0]['videoPrimaryInfoRenderer']['title']['runs'][0]['text'],
         channelName: map?['results']['results']['contents'][1]['videoSecondaryInfoRenderer']['owner']['videoOwnerRenderer']['title']['runs'][0]['text'],
         viewCount: map?['results']['results']['contents'][0]['videoPrimaryInfoRenderer']['viewCount']['videoViewCountRenderer']['shortViewCount']['simpleText'],
         subscribeCount: map?['results']?['results']?['contents']?[1]?['videoSecondaryInfoRenderer']?['owner']?['videoOwnerRenderer']?['subscriberCountText']?['simpleText'],
-        likeCount: map?['results']['results']['contents'][0]['videoPrimaryInfoRenderer']['videoActions']['menuRenderer']['topLevelButtons'][0]['toggleButtonRenderer']['defaultText']['simpleText'],
+        // likeCount: map?['results']['results']['contents'][0]['videoPrimaryInfoRenderer']['videoActions']['menuRenderer']['topLevelButtons'][0]?['toggleButtonRenderer']['defaultText']['simpleText'],
+        // unlikeCount: '',
+        likeCount: '',
         unlikeCount: '',
         description: collectDescriptionString(
             map?['results']?['results']?['contents']?[1]?['videoSecondaryInfoRenderer']?['description']?['runs']),
