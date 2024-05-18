@@ -36,8 +36,7 @@ class YoutubeDataApi {
     ///Check if new search query is the same of last search query and continue token is not null
     ///for load more videos with the search query
     if (_searchToken != null && query == lastQuery) {
-      var url =
-          'https://www.youtube.com/youtubei/v1/search?key=$API_KEY';
+      var url = 'https://www.youtube.com/youtubei/v1/search?key=$API_KEY';
 
       return retry(() async {
         var body = {
@@ -284,7 +283,7 @@ class YoutubeDataApi {
         .map((e) => e.text)
         .toList(growable: false);
     var initialData =
-    scriptText.firstWhereOrNull((e) => e.contains('var ytInitialData = '));
+        scriptText.firstWhereOrNull((e) => e.contains('var ytInitialData = '));
     initialData ??= scriptText
         .firstWhereOrNull((e) => e.contains('window["ytInitialData"] ='));
     var jsonMap = extractJson(initialData!);
@@ -335,12 +334,14 @@ class YoutubeDataApi {
 
   ///Get channel data and videos in channel page
   Future<ChannelData?> fetchChannelData(String channelId) async {
+    // print('Fetching channel data');
     var client = http.Client();
     var response = await client.get(
       Uri.parse(
         'https://www.youtube.com/channel/$channelId/videos',
       ),
     );
+    // print('GOT THE RESPONSE: ${response.body}');
     var raw = response.body;
     var root = parser.parse(raw);
     final scriptText = root
@@ -425,7 +426,7 @@ class YoutubeDataApi {
       List<Video> videosList = [];
 
       contentList?.forEach((element) {
-        if(element['compactVideoRenderer']?['title']?['simpleText'] !=null){
+        if (element['compactVideoRenderer']?['title']?['simpleText'] != null) {
           Video video = Video.fromMap(element);
           videosList.add(video);
         }
@@ -441,8 +442,7 @@ class YoutubeDataApi {
   Future<List<Video>> loadMoreInChannel(String API_KEY) async {
     List<Video> videos = [];
     var client = http.Client();
-    var url =
-        'https://www.youtube.com/youtubei/v1/browse?key=$API_KEY';
+    var url = 'https://www.youtube.com/youtubei/v1/browse?key=$API_KEY';
     var body = {
       'context': const {
         'client': {
@@ -475,8 +475,7 @@ class YoutubeDataApi {
   Future<List<Video>> loadMoreInPlayList(String API_KEY) async {
     List<Video> list = [];
     var client = http.Client();
-    var url =
-        'https://www.youtube.com/youtubei/v1/browse?key=$API_KEY';
+    var url = 'https://www.youtube.com/youtubei/v1/browse?key=$API_KEY';
     var body = {
       'context': const {
         'client': {
