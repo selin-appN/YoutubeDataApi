@@ -1,10 +1,13 @@
 class Channel {
   ///Youtube channel id
   String? channelId;
+
   ///Youtube channel title
   String? title;
+
   ///Youtube channel thumbnail
   String? thumbnail;
+
   ///Youtube channel number of videos
   String? videoCount;
 
@@ -13,12 +16,11 @@ class Channel {
   factory Channel.fromMap(Map<String, dynamic>? map) {
     return Channel(
         channelId: map?['channelRenderer']['channelId'],
-        thumbnail: map?['channelRenderer']['thumbnail']
-        ['thumbnails'][0]['url'],
+        thumbnail: map?['channelRenderer']['thumbnail']['thumbnails']?[0]
+            ['url'],
         title: map?['channelRenderer']['title']['simpleText'],
-      videoCount: map?['channelRenderer']['videoCountText']
-      ['runs'][0]['text']
-    );
+        videoCount: map?['channelRenderer']['videoCountText']['runs']?[0]
+            ['text']);
   }
 
   Map<String, dynamic> toJson() {

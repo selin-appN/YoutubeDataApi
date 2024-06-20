@@ -45,12 +45,9 @@ class Video {
           videoId: map?['videoRenderer']?['videoId'],
           duration: (lengthText == null) ? "Live" : lengthText?['simpleText'],
           title: map?['videoRenderer']?['title']?['runs']?[0]?['text'],
-          // channelName: map?['videoRenderer']['longBylineText']['runs'][0]['text'],
+          // channelName: map?['videoRenderer']['longBylineText']['runs']?[0]['text'],
           thumbnails: thumbnails,
-          views: (lengthText == null)
-              ? "Views " +
-                  map!['videoRenderer']['viewCountText']['runs'][0]['text']
-              : simpleText);
+          views: simpleText);
     } else if (map?.containsKey("compactVideoRenderer") ?? false) {
       //Related videos
       thumbnails = [];
@@ -81,8 +78,8 @@ class Video {
       });
       return Video(
           videoId: map?['gridVideoRenderer']['videoId'],
-          title: map?['gridVideoRenderer']['title']['runs'][0]['text'],
-          duration: map?['gridVideoRenderer']['thumbnailOverlays'][0]
+          title: map?['gridVideoRenderer']['title']['runs']?[0]['text'],
+          duration: map?['gridVideoRenderer']['thumbnailOverlays']?[0]
               ['thumbnailOverlayTimeStatusRenderer']['text']['simpleText'],
           thumbnails: thumbnails,
           views: (simpleText != null) ? simpleText : "???");

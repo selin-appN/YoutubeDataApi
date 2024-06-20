@@ -1,4 +1,5 @@
 import 'package:youtube_data_api/models/thumbnail.dart';
+
 class PlayList {
   ///Youtube playlist id
   String? playListId;
@@ -24,16 +25,18 @@ class PlayList {
 
   factory PlayList.fromMap(Map<String, dynamic>? map) {
     List<Thumbnail> thumbnails = [];
-    map?['playlistRenderer']['thumbnails']
-        .forEach((thumbnail) {
-      thumbnails.add(Thumbnail(url: thumbnail['thumbnails'][0]['url'], width: thumbnail['thumbnails'][0]['width'], height: thumbnail['thumbnails'][0]['height']));
+    map?['playlistRenderer']['thumbnails'].forEach((thumbnail) {
+      thumbnails.add(Thumbnail(
+          url: thumbnail['thumbnails']?[0]['url'],
+          width: thumbnail['thumbnails']?[0]['width'],
+          height: thumbnail['thumbnails']?[0]['height']));
     });
     return PlayList(
         playListId: map?['playlistRenderer']['playlistId'],
         thumbnails: thumbnails,
         title: map?['playlistRenderer']['title']['simpleText'],
         videoCount: map?['playlistRenderer']['videoCount'],
-        channelName: map?['playlistRenderer']['shortBylineText']['runs'][0]
+        channelName: map?['playlistRenderer']['shortBylineText']['runs']?[0]
             ['text']);
   }
 
