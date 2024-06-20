@@ -398,45 +398,45 @@ class YoutubeDataApi {
 
   ///Get video data (videoId, title, viewCount, username, likeCount, unlikeCount, channelThumb,
   /// channelId, subscribeCount ,Related videos)
-  Future<VideoData?> fetchVideoData(String videoId) async {
-    VideoData? videoData;
-    var client = http.Client();
-    var response =
-        await client.get(Uri.parse('https://www.youtube.com/watch?v=$videoId'));
-    var raw = response.body;
-    var root = parser.parse(raw);
-    final scriptText = root
-        .querySelectorAll('script')
-        .map((e) => e.text)
-        .toList(growable: false);
-    var initialData =
-        scriptText.firstWhereOrNull((e) => e.contains('var ytInitialData = '));
-    initialData ??= scriptText
-        .firstWhereOrNull((e) => e.contains('window["ytInitialData"] ='));
-    var jsonMap = extractJson(initialData!);
-    if (jsonMap != null) {
-      var contents = jsonMap.get('contents')?.get('twoColumnWatchNextResults');
+  // Future<VideoData?> fetchVideoData(String videoId) async {
+  //   VideoData? videoData;
+  //   var client = http.Client();
+  //   var response =
+  //       await client.get(Uri.parse('https://www.youtube.com/watch?v=$videoId'));
+  //   var raw = response.body;
+  //   var root = parser.parse(raw);
+  //   final scriptText = root
+  //       .querySelectorAll('script')
+  //       .map((e) => e.text)
+  //       .toList(growable: false);
+  //   var initialData =
+  //       scriptText.firstWhereOrNull((e) => e.contains('var ytInitialData = '));
+  //   initialData ??= scriptText
+  //       .firstWhereOrNull((e) => e.contains('window["ytInitialData"] ='));
+  //   var jsonMap = extractJson(initialData!);
+  //   if (jsonMap != null) {
+  //     var contents = jsonMap.get('contents')?.get('twoColumnWatchNextResults');
 
-      var contentList = contents
-          ?.get('secondaryResults')
-          ?.get('secondaryResults')
-          ?.getList('results')
-          ?.toList();
+  //     var contentList = contents
+  //         ?.get('secondaryResults')
+  //         ?.get('secondaryResults')
+  //         ?.getList('results')
+  //         ?.toList();
 
-      List<Video> videosList = [];
+  //     List<Video> videosList = [];
 
-      contentList?.forEach((element) {
-        if (element['compactVideoRenderer']?['title']?['simpleText'] != null) {
-          Video video = Video.fromMap(element);
-          videosList.add(video);
-        }
-      });
+  //     contentList?.forEach((element) {
+  //       if (element['compactVideoRenderer']?['title']?['simpleText'] != null) {
+  //         Video video = Video.fromMap(element);
+  //         videosList.add(video);
+  //       }
+  //     });
 
-      videoData = VideoData(
-          video: VideoPage.fromMap(contents, videoId), videosList: videosList);
-    }
-    return videoData;
-  }
+  //     videoData = VideoData(
+  //         video: VideoPage.fromMap(contents, videoId), videosList: videosList);
+  //   }
+  //   return videoData;
+  // }
 
   ///Load more videos in youtube channel
   Future<List<Video>> loadMoreInChannel(String API_KEY) async {
